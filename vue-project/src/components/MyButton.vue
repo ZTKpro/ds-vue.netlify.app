@@ -1,6 +1,7 @@
 <template>
-  <v-btn color="primary" v-bind="$attrs" v-on="$listeners">
-    sth
+  <v-btn v-bind="$attrs" v-on="$listeners">
+    <slot></slot>
+    <slot name="append"></slot>
   </v-btn>
 </template>
 
