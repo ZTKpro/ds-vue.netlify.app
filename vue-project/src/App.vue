@@ -6,69 +6,62 @@
       <template #append> dodatkowa treść </template>
     </my-button>
     <pre class="code" v-show="!isCollapsed">
-                <code >
-                  {{ `
-                    <template>
-                      <v-btn v-bind="$attrs" v-on="$listeners">
-                        <slot></slot>
-                        <slot name="append"></slot>
-                      </v-btn>
-                    </template>
+      <code >
+        {{ `
+          <template>
+            <v-btn v-bind="$attrs" v-on="$listeners">
+              <slot></slot>
+              <slot name="append"></slot>
+            </v-btn>
+          </template>
 
-                  <script>
-                                                                                                            export default {
-                                                                                                            name: "MyButton",
-                                                                                                            };
-                                                                                                          </script>
-                                                                                                          `
-                  }}
-                </code>
-                </pre>
+        <script>
+          export default {
+          name: "MyButton",
+          };
+        </script>
+        `
+        }}
+      </code>
+    </pre>
     <h2 class="header">Zadanie rekrutacyjne - Card</h2>
     <my-button color="primary" @click="isCollapsedCard = !isCollapsedCard">
       Pokaż kod
     </my-button>
     <pre class="code" v-show="!isCollapsedCard">
-                      <code >
-                        {{ `
-                        countFullDecks(cards) {
-                      let fullDecks = 0;
+    <code >
+    {{ `
+      countFullDecks(cards) {
+        let fullDecks = 0;
+        const suits = ['W', 'D', 'K', 'A'];
+        const values = ['KAR', 'KIE', 'TRE', 'PIK'];
 
-                      // Dawid aby ci było łatwiej, pokazuje i objaśniam co tu się dzieje
+        cards.sort();
 
-                      // sortujemy tablicę przez dane symbole pomoże to póznie przy filtrowaniu 
+        function segregateByFirstLetter(arr) {
+          return arr.reduce((result, element) => {
+            const firstLetter = element.charAt(0);
+            result[firstLetter] = result[firstLetter] || [];
+            result[firstLetter].push(element);
+            return result;
+          }, {});
+        }
 
-                      cards.sort(); // Dostajemy 0: 'AKAR', 1: 'AKIE', 2: 'APIK', 3: 'ATRE', 4: 'DKIE', 5: 'WKIE'}
+        const sortCardBySuits = segregateByFirstLetter(cards);
 
-                      // tworzymy tablicę z symbolami kart
+        for(let i = 0; i < suits.length; i++) {
+          if(sortCardBySuits[suits[i]] && sortCardBySuits[suits[i]].length === 4) {
+            if (sortCardBySuits[suits[i]].every((value) => values.includes(value.slice(1)))) {
+              fullDecks++;
+            }
+          }
+        }
 
-                      const suits = ['W', 'D', 'K', 'A'];
-                      const values = ['KAR', 'KIE', 'TRE', 'PIK'];
-
-                      // tworzymy tablicę z kartami danego symbolu
-
-                      const cardsOfSuit = cards.filter(card => {
-                        for (let i = 0; i < suits.length; i++) return card.includes(suits[i])
-                      }
-
-                      );
-
-                      // i tutaj moglibyśmy skończyć zadanie ale nie jestem juniorem i chciałem pokazać jak można to zrobić lepiej
-                      // if(cardsOfSuit.length === 4) { 
-                      //   fullDecks++;
-                      // }
-
-
-                                                                                                                                                      // Sprawdzanie czy tablica zawiera wszystkie wartości
-                                                                                                                                                      if (cardsOfSuit.every((value) => values.includes(value.slice(1)))) {
-                                                                                                                                                        fullDecks++;
-                                                                                                                                                      }
-
-                                                                                                                                                      return fullDecks;
-                                                                                                                                                    }
-                                                                                                                                                    `}}
-                    </code>
-                  </pre>
+        return fullDecks;
+      }
+      `}}
+      </code>
+    </pre>
     <!-- Brak walidacji że względu n na brak czasu -->
     <v-text-field class="input" label="Napisz iniciał karty oraz zatwierdz enterem" type="text" v-model="newCard"
       @keyup.enter="addCard"></v-text-field>
@@ -107,34 +100,27 @@ export default {
       const suits = ['W', 'D', 'K', 'A'];
       const values = ['KAR', 'KIE', 'TRE', 'PIK'];
 
-      // Dawid aby ci było łatwiej, pokazuje i objaśniam co tu się dzieje
+      cards.sort();
 
-      // sortujemy tablicę przez dane symbole pomoże to póznie przy filtrowaniu 
-
-      cards.sort(); // Dostajemy 0: 'AKAR', 1: 'AKIE', 2: 'APIK', 3: 'ATRE', 4: 'DKIE', 5: 'WKIE'}
-
-      // tworzymy tablicę z symbolami kart
-
-
-      // tworzymy tablicę z kartami danego symbolu
-
-      for (let i = 0; i < suits.length; i++) {
-        const cardsOfSuit = cards.filter(card =>
-          card.includes(suits[i])
-        )
-        console.log(cardsOfSuit)
-        // i tutaj moglibyśmy skończyć zadanie ale nie jestem juniorem i chciałem pokazać jak można to zrobić lepiej
-        // if(cardsOfSuit.length === 4) { 
-        //   fullDecks++;
-        // }
-
-
-        // Sprawdzanie czy tablica zawiera wszystkie wartości
-        if (cardsOfSuit.every((value) => values.includes(value.slice(1)))) {
-          fullDecks++;
-        }
-
+      function segregateByFirstLetter(arr) {
+        return arr.reduce((result, element) => {
+          const firstLetter = element.charAt(0);
+          result[firstLetter] = result[firstLetter] || [];
+          result[firstLetter].push(element);
+          return result;
+        }, {});
       }
+
+      const sortCardBySuits = segregateByFirstLetter(cards);
+
+      for(let i = 0; i < suits.length; i++) {
+        if(sortCardBySuits[suits[i]] && sortCardBySuits[suits[i]].length === 4) {
+          if (sortCardBySuits[suits[i]].every((value) => values.includes(value.slice(1)))) {
+            fullDecks++;
+          }
+        }
+      }
+
       return fullDecks;
     }
   }
