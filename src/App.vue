@@ -8,16 +8,16 @@
     <pre class="code" v-show="!isCollapsed">
       <code >
         {{ `
-          <template>
-            <v-btn v-bind="$attrs" v-on="$listeners">
-              <slot></slot>
-              <slot name="append"></slot>
-            </v-btn>
-          </template>
+        <template>
+          <v-btn v-bind="$attrs" v-on="$listeners">
+            <slot></slot>
+            <slot name="append"></slot>
+          </v-btn>
+        </template>
 
         <script>
           export default {
-          name: "MyButton",
+            name: "MyButton",
           };
         </script>
         `
@@ -29,37 +29,37 @@
       Pokaż kod
     </my-button>
     <pre class="code" v-show="!isCollapsedCard">
-    <code >
-    {{ `
-      countFullDecks(cards) {
-        let fullDecks = 0;
-        const suits = ['W', 'D', 'K', 'A'];
-        const values = ['KAR', 'KIE', 'TRE', 'PIK'];
+      <code >
+        {{ `
+        countFullDecks(cards) {
+          let fullDecks = 0;
+          const suits = ['W', 'D', 'K', 'A'];
+          const values = ['KAR', 'KIE', 'TRE', 'PIK'];
 
-        cards.sort();
+          cards.sort();
 
-        function segregateByFirstLetter(arr) {
-          return arr.reduce((result, element) => {
-            const firstLetter = element.charAt(0);
-            result[firstLetter] = result[firstLetter] || [];
-            result[firstLetter].push(element);
-            return result;
-          }, {});
-        }
+          function segregateByFirstLetter(arr) {
+            return arr.reduce((result, element) => {
+              const firstLetter = element.charAt(0);
+              result[firstLetter] = result[firstLetter] || [];
+              result[firstLetter].push(element);
+              return result;
+            }, {});
+          }
 
-        const sortCardBySuits = segregateByFirstLetter(cards);
+          const sortCardBySuits = segregateByFirstLetter(cards);
 
-        for(let i = 0; i < suits.length; i++) {
-          if(sortCardBySuits[suits[i]] && sortCardBySuits[suits[i]].length === 4) {
-            if (sortCardBySuits[suits[i]].every((value) => values.includes(value.slice(1)))) {
-              fullDecks++;
+          for(let i = 0; i < suits.length; i++) {
+            if(sortCardBySuits[suits[i]] && sortCardBySuits[suits[i]].length === 4) {
+              if (sortCardBySuits[suits[i]].every((value) => values.includes(value.slice(1)))) {
+                fullDecks++;
+              }
             }
           }
-        }
 
-        return fullDecks;
-      }
-      `}}
+          return fullDecks;
+        }
+        `}}
       </code>
     </pre>
     <!-- Brak walidacji że względu n na brak czasu -->
