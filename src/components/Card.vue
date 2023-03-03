@@ -40,7 +40,7 @@ export default {
 
 <style>
 .card {
-    margin: 10px 20px;
+    margin: 20px;
     display: inline-block;
     width: 100px;
     height: 150px;
